@@ -20,13 +20,19 @@ def best_bmws():
     table = instance.table('ev-population')
     rows = table.read_rows()
     rows.consume_all()
-    count = sum(
-    1 for row in rows.rows.values()
-    if (
-        int(row.cells['ev_info']['electric range'][0].value) > 100 and
-        row.cells['ev_info']['make'][0].value.decode() == 'BMW'
-    )
-)
+    count = 0
+    for row_key, row in rows.rows.items():
+        print(row)
+        if int(row.cells['ev_info']['electric range'][0].value) > 100 and \
+           row.cells['ev_info']['make'][0].value.decode() == 'BMW':
+            count += 1
+#     count = sum(
+#     1 for row in rows.rows.values()
+#     if (
+#         int(row.cells['ev_info']['electric range'][0].value) > 100 and
+#         row.cells['ev_info']['make'][0].value.decode() == 'BMW'
+#     )
+# )
     return str(count)
 
 @app.route('/tesla-owners', methods=['GET'])
